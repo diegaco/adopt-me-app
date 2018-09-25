@@ -21157,7 +21157,6 @@ if ('development' === 'production') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Pet = undefined;
 
 var _react = require("react");
 
@@ -21165,8 +21164,26 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Pet = exports.Pet = function Pet(props) {
-  return _react2.default.createElement("div", {}, [_react2.default.createElement("h1", {}, props.name), _react2.default.createElement("h2", {}, props.animal), _react2.default.createElement("h2", {}, props.breed)]);
+var Pet = function Pet(props) {
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(
+      "h1",
+      null,
+      props.name
+    ),
+    _react2.default.createElement(
+      "h2",
+      null,
+      props.animal
+    ),
+    _react2.default.createElement(
+      "h2",
+      null,
+      props.breed
+    )
+  );
 };
 
 exports.default = Pet;
@@ -21210,21 +21227,18 @@ var App = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react2.default.createElement("div", {}, [_react2.default.createElement("h1", {
-        onClick: this.handleTitleClick
-      }, "Adopt Me"), _react2.default.createElement(_Pet2.default, {
-        name: "Luna",
-        animal: "Dog",
-        breed: "Havanese"
-      }), _react2.default.createElement(_Pet2.default, {
-        name: "Pepper",
-        animal: "Bird",
-        breed: "Cockatiel"
-      }), _react2.default.createElement(_Pet2.default, {
-        name: "Doink",
-        animal: "Cat",
-        breed: "Mixed"
-      })]);
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          "h1",
+          { onClick: this.handleTitleClick },
+          "Adpot Me"
+        ),
+        _react2.default.createElement(_Pet2.default, { name: "Luna", animal: "Dog", breed: "Havanese" }),
+        _react2.default.createElement(_Pet2.default, { name: "Pepper", animal: "Bird", breed: "Cockatiel" }),
+        _react2.default.createElement(_Pet2.default, { name: "Doink", animal: "Cat", breed: "Mixed" })
+      );
     }
   }]);
 
@@ -21235,7 +21249,7 @@ var App = function (_React$Component) {
 // React.createElement can handle both strings tag
 // or it can handle React Components.
 // They're called this, composite components
-_react2.default.createElement(App), document.getElementById("root"));
+_react2.default.createElement(App, null), document.getElementById("root"));
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Pet":"Pet.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
