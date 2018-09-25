@@ -21660,16 +21660,40 @@ var petfinder = (0, _petfinderClient2.default)({
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
 
-  function App() {
+  function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = {
+      pets: []
+    };
+    return _this;
   }
 
   _createClass(App, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      petfinder.breed.list({ animal: "dog" }).then(console.log, console.error);
+      var _this2 = this;
+
+      petfinder.pet.find({
+        output: "full",
+        location: "Seattle, WA"
+      }).then(function (data) {
+        var pets = void 0;
+        if (data.petfinder.pets && data.petfinder.pets.pet) {
+          if (Array.isArray(data.petfinder.pets.pet)) {
+            pets = data.petfinder.pets.pet;
+          } else {
+            pets = [data.petfinder.pets.pet];
+          }
+        } else {
+          pets = [];
+        }
+        _this2.setState({
+          pets: pets
+        });
+      });
     }
   }, {
     key: "render",
@@ -21726,7 +21750,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '61052' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '49929' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
