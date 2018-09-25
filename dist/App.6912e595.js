@@ -21232,7 +21232,7 @@ var App = function (_React$Component) {
         null,
         _react2.default.createElement(
           "h1",
-          { onClick: this.handleTitleClick },
+          null,
           "Adpot Me"
         ),
         _react2.default.createElement(_Pet2.default, { name: "Luna", animal: "Dog", breed: "Havanese" }),

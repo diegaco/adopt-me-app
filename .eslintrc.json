@@ -1,9 +1,18 @@
 {
   "extends": [
     "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    // prettier should come last
     "prettier",
     "prettier/react"
   ],
+  "rules": {
+    "react/prop-types": 0
+  },
+  // enables eslint to have more capabilities
+  "plugins": ["react", "import", "jsx-a11y"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
