@@ -43,9 +43,26 @@ class App extends React.Component {
     return (
       <div>
         <h1>Adpot Me</h1>
-        <Pet name="Luna" animal="Dog" breed="Havanese" />
-        <Pet name="Pepper" animal="Bird" breed="Cockatiel" />
-        <Pet name="Doink" animal="Cat" breed="Mixed" />
+        <div>
+          {this.state.pets.map(pet => {
+            let breed;
+            if (Array.isArray(pet.breeds.breed)) {
+              breed = pet.breeds.breed.join(", ");
+            } else {
+              breed = pet.breeds.breed;
+            }
+            return (
+              <Pet
+                key={pet.id}
+                name={pet.name}
+                animal={pet.animal}
+                breed={breed}
+                media={pet.media}
+                location={`${pet.contact.city}, ${pet.contact.state}`}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }

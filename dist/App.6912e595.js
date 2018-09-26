@@ -21596,33 +21596,79 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Pet = function Pet(props) {
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "h1",
-      null,
-      props.name
-    ),
-    _react2.default.createElement(
-      "h2",
-      null,
-      props.animal
-    ),
-    _react2.default.createElement(
-      "h2",
-      null,
-      props.breed
-    )
-  );
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Pet = function (_Component) {
+  _inherits(Pet, _Component);
+
+  function Pet() {
+    _classCallCheck(this, Pet);
+
+    return _possibleConstructorReturn(this, (Pet.__proto__ || Object.getPrototypeOf(Pet)).apply(this, arguments));
+  }
+
+  _createClass(Pet, [{
+    key: "render",
+    value: function render() {
+      var _props = this.props,
+          name = _props.name,
+          animal = _props.animal,
+          breed = _props.breed,
+          media = _props.media,
+          location = _props.location;
+
+
+      var photos = [];
+      if (media && media.photos && media.photos.photo) {
+        photos = media.photos.photo.filter(function (photo) {
+          return photo["@size"] === "pn";
+        });
+      }
+
+      return _react2.default.createElement(
+        "div",
+        { className: "pet" },
+        _react2.default.createElement(
+          "div",
+          { className: "image-container" },
+          _react2.default.createElement("img", { src: photos[0].value, alt: name })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "info" },
+          _react2.default.createElement(
+            "h1",
+            null,
+            name
+          ),
+          _react2.default.createElement(
+            "h2",
+            null,
+            animal,
+            " - ",
+            breed,
+            " - ",
+            location
+          )
+        )
+      );
+    }
+  }]);
+
+  return Pet;
+}(_react.Component);
 
 exports.default = Pet;
 },{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
@@ -21706,9 +21752,26 @@ var App = function (_React$Component) {
           null,
           "Adpot Me"
         ),
-        _react2.default.createElement(_Pet2.default, { name: "Luna", animal: "Dog", breed: "Havanese" }),
-        _react2.default.createElement(_Pet2.default, { name: "Pepper", animal: "Bird", breed: "Cockatiel" }),
-        _react2.default.createElement(_Pet2.default, { name: "Doink", animal: "Cat", breed: "Mixed" })
+        _react2.default.createElement(
+          "div",
+          null,
+          this.state.pets.map(function (pet) {
+            var breed = void 0;
+            if (Array.isArray(pet.breeds.breed)) {
+              breed = pet.breeds.breed.join(", ");
+            } else {
+              breed = pet.breeds.breed;
+            }
+            return _react2.default.createElement(_Pet2.default, {
+              key: pet.id,
+              name: pet.name,
+              animal: pet.animal,
+              breed: breed,
+              media: pet.media,
+              location: pet.contact.city + ", " + pet.contact.state
+            });
+          })
+        )
       );
     }
   }]);
@@ -21750,7 +21813,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '49929' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '51323' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
