@@ -39,6 +39,7 @@ class Details extends Component {
         });
       })
       .catch(err => {
+        console.log(err);
         navigate("/");
       });
   }

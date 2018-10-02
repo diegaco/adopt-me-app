@@ -9,7 +9,12 @@
     "prettier/react"
   ],
   "rules": {
-    "react/prop-types": 0
+    // 0 -> turns rules off
+    // 1 -> warning
+    // 2 -> error
+    "react/prop-types": 0,
+    "jsx-a11y/label-has-for": 0,
+    "no-console": 1
   },
   // enables eslint to have more capabilities
   "plugins": ["react", "import", "jsx-a11y"],
