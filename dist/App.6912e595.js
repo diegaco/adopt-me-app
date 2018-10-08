@@ -23835,13 +23835,15 @@ var Pet = function (_Component) {
         });
       }
 
+      var hero = photos[0] ? photos[0].value : "http://placecorgi.com/300/300";
+
       return _react2.default.createElement(
         _router.Link,
         { to: "/details/" + id, className: "pet" },
         _react2.default.createElement(
           "div",
           { className: "image-container" },
-          _react2.default.createElement("img", { src: photos[0].value, alt: name })
+          _react2.default.createElement("img", { src: hero, alt: name })
         ),
         _react2.default.createElement(
           "div",
@@ -23898,14 +23900,27 @@ var SearchBox = function (_Component) {
   _inherits(SearchBox, _Component);
 
   function SearchBox() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, SearchBox);
 
-    return _possibleConstructorReturn(this, (SearchBox.__proto__ || Object.getPrototypeOf(SearchBox)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchBox.__proto__ || Object.getPrototypeOf(SearchBox)).call.apply(_ref, [this].concat(args))), _this), _this.handleFormSubmit = function (evt) {
+      evt.preventDefault();
+      _this.props.search();
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(SearchBox, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         _SearchContext.Consumer,
         null,
@@ -23914,76 +23929,80 @@ var SearchBox = function (_Component) {
             "div",
             { className: "search-params" },
             _react2.default.createElement(
-              "label",
-              { htmlFor: "location" },
-              "Location",
-              _react2.default.createElement("input", {
-                id: "location",
-                value: context.location,
-                placeholder: "Location",
-                type: "text",
-                onChange: context.handleLocationChange
-              })
-            ),
-            _react2.default.createElement(
-              "label",
-              { htmlFor: "animal" },
-              "Animal",
+              "form",
+              { action: "", onSubmit: _this2.handleFormSubmit },
               _react2.default.createElement(
-                "select",
-                {
-                  id: "animal",
-                  value: context.animal,
-                  onChange: context.handleAnimalChange,
-                  onBlur: context.handleAnimalChange,
-                  name: ""
-                },
-                _react2.default.createElement(
-                  "option",
-                  { value: "All" },
-                  "- All -"
-                ),
-                _petfinderClient.ANIMALS.map(function (animal) {
-                  return _react2.default.createElement(
-                    "option",
-                    { key: animal, value: animal },
-                    animal
-                  );
+                "label",
+                { htmlFor: "location" },
+                "Location",
+                _react2.default.createElement("input", {
+                  id: "location",
+                  value: context.location,
+                  placeholder: "Location",
+                  type: "text",
+                  onChange: context.handleLocationChange
                 })
-              )
-            ),
-            _react2.default.createElement(
-              "label",
-              { htmlFor: "breed" },
-              "Breed",
+              ),
               _react2.default.createElement(
-                "select",
-                {
-                  id: "breed",
-                  value: context.breed,
-                  onChange: context.handleBreedChange,
-                  onBlur: context.handleBreedChange,
-                  name: "",
-                  disabled: !context.breeds.length
-                },
+                "label",
+                { htmlFor: "animal" },
+                "Animal",
                 _react2.default.createElement(
-                  "option",
-                  { value: "All" },
-                  "- All -"
-                ),
-                context.breeds.map(function (breed) {
-                  return _react2.default.createElement(
+                  "select",
+                  {
+                    id: "animal",
+                    value: context.animal,
+                    onChange: context.handleAnimalChange,
+                    onBlur: context.handleAnimalChange,
+                    name: ""
+                  },
+                  _react2.default.createElement(
                     "option",
-                    { key: breed, value: breed },
-                    breed
-                  );
-                })
+                    { value: "All" },
+                    "- All -"
+                  ),
+                  _petfinderClient.ANIMALS.map(function (animal) {
+                    return _react2.default.createElement(
+                      "option",
+                      { key: animal, value: animal },
+                      animal
+                    );
+                  })
+                )
+              ),
+              _react2.default.createElement(
+                "label",
+                { htmlFor: "breed" },
+                "Breed",
+                _react2.default.createElement(
+                  "select",
+                  {
+                    id: "breed",
+                    value: context.breed,
+                    onChange: context.handleBreedChange,
+                    onBlur: context.handleBreedChange,
+                    name: "",
+                    disabled: !context.breeds.length
+                  },
+                  _react2.default.createElement(
+                    "option",
+                    { value: "All" },
+                    "- All -"
+                  ),
+                  context.breeds.map(function (breed) {
+                    return _react2.default.createElement(
+                      "option",
+                      { key: breed, value: breed },
+                      breed
+                    );
+                  })
+                )
+              ),
+              _react2.default.createElement(
+                "button",
+                { type: "submit" },
+                "Send"
               )
-            ),
-            _react2.default.createElement(
-              "button",
-              { type: "submit" },
-              "Send"
             )
           );
         }
@@ -24002,7 +24021,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.default = ResultsWithContext;
 
 var _react = require("react");
 
@@ -24011,6 +24034,8 @@ var _react2 = _interopRequireDefault(_react);
 var _petfinderClient = require("petfinder-client");
 
 var _petfinderClient2 = _interopRequireDefault(_petfinderClient);
+
+var _SearchContext = require("./SearchContext");
 
 var _Pet = require("./Pet");
 
@@ -24041,20 +24066,14 @@ var Results = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
 
-    _this.state = {
-      pets: []
-    };
-    return _this;
-  }
+    _this._isMounted = false;
 
-  _createClass(Results, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
+    _this.search = function () {
       petfinder.pet.find({
         output: "full",
-        location: "Seattle, WA"
+        location: _this.props.searchParams.location,
+        animal: _this.props.searchParams.animal,
+        breed: _this.props.searchParams.breed
       }).then(function (data) {
         var pets = void 0;
         if (data.petfinder.pets && data.petfinder.pets.pet) {
@@ -24066,10 +24085,31 @@ var Results = function (_Component) {
         } else {
           pets = [];
         }
-        _this2.setState({
-          pets: pets
-        });
+
+        if (_this._isMounted) {
+          _this.setState({
+            pets: pets
+          });
+        }
       });
+    };
+
+    _this.state = {
+      pets: []
+    };
+    return _this;
+  }
+
+  _createClass(Results, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this._isMounted = true;
+      this.search();
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this._isMounted = false;
     }
   }, {
     key: "render",
@@ -24077,7 +24117,7 @@ var Results = function (_Component) {
       return _react2.default.createElement(
         "div",
         { className: "search" },
-        _react2.default.createElement(_SearchBox2.default, null),
+        _react2.default.createElement(_SearchBox2.default, { search: this.search }),
         this.state.pets.map(function (pet) {
           var breed = void 0;
           if (Array.isArray(pet.breeds.breed)) {
@@ -24102,8 +24142,16 @@ var Results = function (_Component) {
   return Results;
 }(_react.Component);
 
-exports.default = Results;
-},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./Pet":"Pet.js","./SearchBox":"SearchBox.js"}],"Carousel.js":[function(require,module,exports) {
+function ResultsWithContext(props) {
+  return _react2.default.createElement(
+    _SearchContext.Consumer,
+    null,
+    function (context) {
+      return _react2.default.createElement(Results, _extends({}, props, { searchParams: context }));
+    }
+  );
+}
+},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./SearchContext":"SearchContext.js","./Pet":"Pet.js","./SearchBox":"SearchBox.js"}],"Carousel.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24366,6 +24414,8 @@ var _SearchBox = require("./SearchBox");
 
 var _SearchBox2 = _interopRequireDefault(_SearchBox);
 
+var _router = require("@reach/router");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24378,9 +24428,19 @@ var SearchParams = function (_Component) {
   _inherits(SearchParams, _Component);
 
   function SearchParams() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, SearchParams);
 
-    return _possibleConstructorReturn(this, (SearchParams.__proto__ || Object.getPrototypeOf(SearchParams)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchParams.__proto__ || Object.getPrototypeOf(SearchParams)).call.apply(_ref, [this].concat(args))), _this), _this.handleSearchSubmit = function () {
+      (0, _router.navigate)("/");
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(SearchParams, [{
@@ -24389,7 +24449,7 @@ var SearchParams = function (_Component) {
       return _react2.default.createElement(
         "div",
         { className: "search-route" },
-        _react2.default.createElement(_SearchBox2.default, null)
+        _react2.default.createElement(_SearchBox2.default, { search: this.handleSearchSubmit })
       );
     }
   }]);
@@ -24398,7 +24458,7 @@ var SearchParams = function (_Component) {
 }(_react.Component);
 
 exports.default = SearchParams;
-},{"react":"../node_modules/react/index.js","./SearchBox":"SearchBox.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./SearchBox":"SearchBox.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24525,6 +24585,15 @@ var App = function (_Component) {
             _router.Link,
             { to: "/" },
             "Adopt Me!"
+          ),
+          _react2.default.createElement(
+            _router.Link,
+            { to: "/search-params" },
+            _react2.default.createElement(
+              "span",
+              { "aria-label": "search", role: "img" },
+              "\uD83D\uDD0D"
+            )
           )
         ),
         _react2.default.createElement(
@@ -24575,7 +24644,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '50235' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '54119' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
