@@ -201,8 +201,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-exports.default = ResultsWithContext;
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -220,6 +218,8 @@ var _Pet2 = _interopRequireDefault(_Pet);
 var _SearchBox = require("./SearchBox");
 
 var _SearchBox2 = _interopRequireDefault(_SearchBox);
+
+var _reactRedux = require("react-redux");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -247,7 +247,7 @@ var Results = function (_Component) {
     _this.search = function () {
       petfinder.pet.find({
         output: "full",
-        location: _this.props.searchParams.location,
+        location: _this.props.location,
         animal: _this.props.searchParams.animal,
         breed: _this.props.searchParams.breed
       }).then(function (data) {
@@ -273,6 +273,7 @@ var Results = function (_Component) {
     _this.state = {
       pets: []
     };
+    console.log(props);
     return _this;
   }
 
@@ -327,7 +328,16 @@ function ResultsWithContext(props) {
     }
   );
 }
-},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./SearchContext":"SearchContext.js","./Pet":"Pet.js","./SearchBox":"SearchBox.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  var location = _ref.location;
+  return {
+    location: location
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(ResultsWithContext);
+},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./SearchContext":"SearchContext.js","./Pet":"Pet.js","./SearchBox":"SearchBox.js","react-redux":"../node_modules/react-redux/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -356,7 +366,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '57458' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '63135' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
