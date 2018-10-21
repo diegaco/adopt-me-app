@@ -3,7 +3,6 @@ import { render } from "react-dom";
 import { Router } from "@reach/router";
 import Loadable from "react-loadable";
 import Navbar from "./Navbar";
-import SearchParams from "./SearchParams";
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -31,16 +30,16 @@ const LoadableSearchParams = Loadable({
 class App extends Component {
   render() {
     return (
-      <div>
-        <Provider store={store}>
+      <Provider store={store}>
+        <React.Fragment>
           <Navbar />
           <Router>
             <LoadableResults path="/" />
             <LoadableDetails path="/details/:id" />
             <LoadableSearchParams path="/search-params" />
           </Router>
-        </Provider>
-      </div>
+        </React.Fragment>
+      </Provider>
     );
   }
 }

@@ -10,10 +10,7 @@ const store = createStore(
   compose(
     //Thunks are for async actions
     applyMiddleware(thunk),
-    typeof window === "object" &&
-      typeof window.devToolsExtension === "undefined"
-      ? window.devToolsExtension()
-      : f => f
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 

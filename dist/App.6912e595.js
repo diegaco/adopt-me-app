@@ -27877,12 +27877,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-//will import index.js from reducers because reducers is a file
-// directory and not a file itself. By default will try to import
-// index.js
-
-
 var _redux = require("redux");
 
 var _reduxThunk = require("redux-thunk");
@@ -27897,10 +27891,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var store = (0, _redux.createStore)(_reducers2.default, (0, _redux.compose)(
 //Thunks are for async actions
-(0, _redux.applyMiddleware)(_reduxThunk2.default), (typeof window === "undefined" ? "undefined" : _typeof(window)) === "object" && typeof window.devToolsExtension === "undefined" ? window.devToolsExtension() : function (f) {
-  return f;
-}));
-
+(0, _redux.applyMiddleware)(_reduxThunk2.default), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+//will import index.js from reducers because reducers is a file
+// directory and not a file itself. By default will try to import
+// index.js
 exports.default = store;
 },{"redux":"../node_modules/redux/es/redux.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","./reducers":"reducers/index.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
@@ -28030,10 +28024,6 @@ var _Navbar = require("./Navbar");
 
 var _Navbar2 = _interopRequireDefault(_Navbar);
 
-var _SearchParams = require("./SearchParams");
-
-var _SearchParams2 = _interopRequireDefault(_SearchParams);
-
 var _reactRedux = require("react-redux");
 
 var _store = require("./store");
@@ -28100,11 +28090,11 @@ var App = function (_Component) {
     key: "render",
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        null,
+        _reactRedux.Provider,
+        { store: _store2.default },
         _react2.default.createElement(
-          _reactRedux.Provider,
-          { store: _store2.default },
+          _react2.default.Fragment,
+          null,
           _react2.default.createElement(_Navbar2.default, null),
           _react2.default.createElement(
             _router.Router,
@@ -28122,7 +28112,7 @@ var App = function (_Component) {
 }(_react.Component);
 
 (0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","react-loadable":"../node_modules/react-loadable/lib/index.js","./Navbar":"Navbar.js","./SearchParams":[["SearchParams.f837eee7.js","SearchParams.js"],"SearchParams.f837eee7.map","SearchParams.js"],"react-redux":"../node_modules/react-redux/es/index.js","./store":"store.js","_bundle_loader":"../node_modules/parcel-bundler/src/builtins/bundle-loader.js","./Details":[["Details.7ffdf28f.js","Details.js"],"Details.7ffdf28f.map","Details.js"],"./Results":[["Results.9716f07f.js","Results.js"],"Results.9716f07f.map","Results.js"]}],"../node_modules/process/browser.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","react-loadable":"../node_modules/react-loadable/lib/index.js","./Navbar":"Navbar.js","react-redux":"../node_modules/react-redux/es/index.js","./store":"store.js","_bundle_loader":"../node_modules/parcel-bundler/src/builtins/bundle-loader.js","./Details":[["Details.7ffdf28f.js","Details.js"],"Details.7ffdf28f.map","Details.js"],"./Results":[["Results.9716f07f.js","Results.js"],"Results.9716f07f.map","Results.js"],"./SearchParams":[["SearchParams.f837eee7.js","SearchParams.js"],"SearchParams.f837eee7.map","SearchParams.js"]}],"../node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -28560,36 +28550,96 @@ module.exports = function createPetfinderSingleton(creds) {
 };
 module.exports.ANIMALS = ANIMALS;
 
-},{"is-node":"../node_modules/is-node/index.js","browser-jsonp":"../node_modules/browser-jsonp/lib/jsonp.js"}],"SearchContext.js":[function(require,module,exports) {
+},{"is-node":"../node_modules/is-node/index.js","browser-jsonp":"../node_modules/browser-jsonp/lib/jsonp.js"}],"actionCreators/getBreeds.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Consumer = exports.Provider = undefined;
+exports.default = getBreeds;
 
-var _react = require("react");
+var _petfinderClient = require("petfinder-client");
 
-var _react2 = _interopRequireDefault(_react);
+var _petfinderClient2 = _interopRequireDefault(_petfinderClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _React$createContext = _react2.default.createContext({
-  location: "Seattle, WA",
-  animal: "",
-  breed: "",
-  breeds: [],
-  handleAnimalChange: function handleAnimalChange() {},
-  handleBreedChange: function handleBreedChange() {},
-  handleLocationChange: function handleLocationChange() {},
-  getBreeds: function getBreeds() {}
-}),
-    Provider = _React$createContext.Provider,
-    Consumer = _React$createContext.Consumer;
+var petfinder = (0, _petfinderClient2.default)({
+  key: "a824f5a589f6cb083de0c1fecb836ac0",
+  secret: "b15bb930def2c43ef59b820bc0fa6eb6"
+});
 
-exports.Provider = Provider;
-exports.Consumer = Consumer;
-},{"react":"../node_modules/react/index.js"}],"SearchBox.js":[function(require,module,exports) {
+// It has to return a thunk, are functions to determine later
+// at runtime what the value is gonna be
+// After AJAX request is made, the thunk determines the actual data
+function getBreeds() {
+  // this is the thunk
+  return function getBreedsThunk(dispatch, getState) {
+    var _getState = getState(),
+        animal = _getState.animal;
+
+    if (animal) {
+      petfinder.breed.list({ animal: animal }).then(function (data) {
+        if (data.petfinder && data.petfinder.breeds && Array.isArray(data.petfinder.breeds.breed)) {
+          // this.setState({
+          //   breeds: data.petfinder.breeds.breed
+          // });
+          //  we cant' call setState here
+          //  we need to dispatch an action
+          dispatch({
+            type: "SET_BREEDS",
+            payload: data.petfinder.breeds.breed
+          });
+        } else {
+          dispatch({
+            type: "SET_BREEDS",
+            payload: []
+          });
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    } else {
+      dispatch({
+        type: "SET_BREEDS",
+        payload: []
+      });
+    }
+  };
+}
+},{"petfinder-client":"../node_modules/petfinder-client/index.js"}],"actionCreators/changeBreed.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = changeBreed;
+function changeBreed(breed) {
+  return { type: "SET_BREED", payload: breed };
+}
+},{}],"actionCreators/changeAnimal.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = changeAnimal;
+// Thats all action creators do, they take in some sort of data and
+// return a well formatted object
+function changeAnimal(animal) {
+  return { type: "SET_ANIMAL", payload: animal };
+}
+},{}],"actionCreators/changeLocation.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = changeLocation;
+function changeLocation(location) {
+  return { type: "SET_LOCATION", payload: location };
+}
+},{}],"SearchBox.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28604,7 +28654,23 @@ var _react2 = _interopRequireDefault(_react);
 
 var _petfinderClient = require("petfinder-client");
 
-var _SearchContext = require("./SearchContext");
+var _reactRedux = require("react-redux");
+
+var _getBreeds = require("./actionCreators/getBreeds");
+
+var _getBreeds2 = _interopRequireDefault(_getBreeds);
+
+var _changeBreed = require("./actionCreators/changeBreed");
+
+var _changeBreed2 = _interopRequireDefault(_changeBreed);
+
+var _changeAnimal = require("./actionCreators/changeAnimal");
+
+var _changeAnimal2 = _interopRequireDefault(_changeAnimal);
+
+var _changeLocation = require("./actionCreators/changeLocation");
+
+var _changeLocation2 = _interopRequireDefault(_changeLocation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28637,93 +28703,85 @@ var SearchBox = function (_Component) {
   _createClass(SearchBox, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       return _react2.default.createElement(
-        _SearchContext.Consumer,
-        null,
-        function (context) {
-          return _react2.default.createElement(
-            "div",
-            { className: "search-params" },
+        "div",
+        { className: "search-params" },
+        _react2.default.createElement(
+          "form",
+          { action: "", onSubmit: this.handleFormSubmit },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "location" },
+            "Location",
+            _react2.default.createElement("input", {
+              id: "location",
+              value: this.props.location,
+              placeholder: "Location",
+              type: "text",
+              onChange: this.props.handleLocationChange
+            })
+          ),
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "animal" },
+            "Animal",
             _react2.default.createElement(
-              "form",
-              { action: "", onSubmit: _this2.handleFormSubmit },
+              "select",
+              {
+                id: "animal",
+                value: this.props.animal,
+                onChange: this.props.handleAnimalChange,
+                onBlur: this.props.handleAnimalChange,
+                name: ""
+              },
               _react2.default.createElement(
-                "label",
-                { htmlFor: "location" },
-                "Location",
-                _react2.default.createElement("input", {
-                  id: "location",
-                  value: context.location,
-                  placeholder: "Location",
-                  type: "text",
-                  onChange: context.handleLocationChange
-                })
+                "option",
+                { value: "All" },
+                "- All -"
               ),
-              _react2.default.createElement(
-                "label",
-                { htmlFor: "animal" },
-                "Animal",
-                _react2.default.createElement(
-                  "select",
-                  {
-                    id: "animal",
-                    value: context.animal,
-                    onChange: context.handleAnimalChange,
-                    onBlur: context.handleAnimalChange,
-                    name: ""
-                  },
-                  _react2.default.createElement(
-                    "option",
-                    { value: "All" },
-                    "- All -"
-                  ),
-                  _petfinderClient.ANIMALS.map(function (animal) {
-                    return _react2.default.createElement(
-                      "option",
-                      { key: animal, value: animal },
-                      animal
-                    );
-                  })
-                )
-              ),
-              _react2.default.createElement(
-                "label",
-                { htmlFor: "breed" },
-                "Breed",
-                _react2.default.createElement(
-                  "select",
-                  {
-                    id: "breed",
-                    value: context.breed,
-                    onChange: context.handleBreedChange,
-                    onBlur: context.handleBreedChange,
-                    name: "",
-                    disabled: !context.breeds.length
-                  },
-                  _react2.default.createElement(
-                    "option",
-                    { value: "All" },
-                    "- All -"
-                  ),
-                  context.breeds.map(function (breed) {
-                    return _react2.default.createElement(
-                      "option",
-                      { key: breed, value: breed },
-                      breed
-                    );
-                  })
-                )
-              ),
-              _react2.default.createElement(
-                "button",
-                { type: "submit" },
-                "Send"
-              )
+              _petfinderClient.ANIMALS.map(function (animal) {
+                return _react2.default.createElement(
+                  "option",
+                  { key: animal, value: animal },
+                  animal
+                );
+              })
             )
-          );
-        }
+          ),
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "breed" },
+            "Breed",
+            _react2.default.createElement(
+              "select",
+              {
+                id: "breed",
+                value: this.props.breed,
+                onChange: this.props.handleBreedChange,
+                onBlur: this.props.handleBreedChange,
+                name: "",
+                disabled: !this.props.breeds.length
+              },
+              _react2.default.createElement(
+                "option",
+                { value: "All" },
+                "- All -"
+              ),
+              this.props.breeds.map(function (breed) {
+                return _react2.default.createElement(
+                  "option",
+                  { key: breed, value: breed },
+                  breed
+                );
+              })
+            )
+          ),
+          _react2.default.createElement(
+            "button",
+            { type: "submit" },
+            "Send"
+          )
+        )
       );
     }
   }]);
@@ -28731,8 +28789,37 @@ var SearchBox = function (_Component) {
   return SearchBox;
 }(_react.Component);
 
-exports.default = SearchBox;
-},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./SearchContext":"SearchContext.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var breed = _ref2.breed,
+      breeds = _ref2.breeds,
+      animal = _ref2.animal,
+      location = _ref2.location;
+  return {
+    breed: breed,
+    breeds: breeds,
+    animal: animal,
+    location: location
+  };
+};
+
+// with these we make changes & dispatching actions to redux
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    handleAnimalChange: function handleAnimalChange(ev) {
+      dispatch((0, _changeAnimal2.default)(ev.target.value));
+      dispatch((0, _getBreeds2.default)());
+    },
+    handleBreedChange: function handleBreedChange(ev) {
+      dispatch((0, _changeBreed2.default)(ev.target.value));
+    },
+    handleLocationChange: function handleLocationChange(ev) {
+      dispatch((0, _changeLocation2.default)(ev.target.value));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchBox);
+},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","react-redux":"../node_modules/react-redux/es/index.js","./actionCreators/getBreeds":"actionCreators/getBreeds.js","./actionCreators/changeBreed":"actionCreators/changeBreed.js","./actionCreators/changeAnimal":"actionCreators/changeAnimal.js","./actionCreators/changeLocation":"actionCreators/changeLocation.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -28761,7 +28848,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '65344' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '54195' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
