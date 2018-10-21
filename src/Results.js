@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import pf from "petfinder-client";
-import { Consumer } from "./SearchContext";
 import Pet from "./Pet";
 import SearchBox from "./SearchBox";
 import { connect } from "react-redux";
@@ -16,7 +15,6 @@ class Results extends Component {
     this.state = {
       pets: []
     };
-    console.log(props);
   }
 
   _isMounted = false;
@@ -35,8 +33,8 @@ class Results extends Component {
       .find({
         output: "full",
         location: this.props.location,
-        animal: this.props.searchParams.animal,
-        breed: this.props.searchParams.breed
+        animal: this.props.animal,
+        breed: this.props.breed
       })
       .then(data => {
         let pets;
@@ -86,16 +84,12 @@ class Results extends Component {
   }
 }
 
-function ResultsWithContext(props) {
-  return (
-    <Consumer>
-      {context => <Results {...props} searchParams={context} />}
-    </Consumer>
-  );
-}
-
-const mapStateToProps = ({ location }) => ({
-  location
+// this is comming from Redux store
+const mapStateToProps = ({ location, breed, animal }) => ({
+  location,
+  breed,
+  animal
 });
 
-export default connect(mapStateToProps)(ResultsWithContext);
+// here we passes redux store to Results as props
+export default connect(mapStateToProps)(Results);

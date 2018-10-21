@@ -197,8 +197,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require("react");
@@ -208,8 +206,6 @@ var _react2 = _interopRequireDefault(_react);
 var _petfinderClient = require("petfinder-client");
 
 var _petfinderClient2 = _interopRequireDefault(_petfinderClient);
-
-var _SearchContext = require("./SearchContext");
 
 var _Pet = require("./Pet");
 
@@ -248,8 +244,8 @@ var Results = function (_Component) {
       petfinder.pet.find({
         output: "full",
         location: _this.props.location,
-        animal: _this.props.searchParams.animal,
-        breed: _this.props.searchParams.breed
+        animal: _this.props.animal,
+        breed: _this.props.breed
       }).then(function (data) {
         var pets = void 0;
         if (data.petfinder.pets && data.petfinder.pets.pet) {
@@ -273,7 +269,6 @@ var Results = function (_Component) {
     _this.state = {
       pets: []
     };
-    console.log(props);
     return _this;
   }
 
@@ -319,25 +314,23 @@ var Results = function (_Component) {
   return Results;
 }(_react.Component);
 
-function ResultsWithContext(props) {
-  return _react2.default.createElement(
-    _SearchContext.Consumer,
-    null,
-    function (context) {
-      return _react2.default.createElement(Results, _extends({}, props, { searchParams: context }));
-    }
-  );
-}
+// this is comming from Redux store
+
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var location = _ref.location;
+  var location = _ref.location,
+      breed = _ref.breed,
+      animal = _ref.animal;
   return {
-    location: location
+    location: location,
+    breed: breed,
+    animal: animal
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(ResultsWithContext);
-},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./SearchContext":"SearchContext.js","./Pet":"Pet.js","./SearchBox":"SearchBox.js","react-redux":"../node_modules/react-redux/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+// here we passes redux store to Results as props
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Results);
+},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./Pet":"Pet.js","./SearchBox":"SearchBox.js","react-redux":"../node_modules/react-redux/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -366,7 +359,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '63135' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '65344' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
