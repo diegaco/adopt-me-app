@@ -11,7 +11,9 @@
     "format": "prettier --write \"src/**/*.{js,jsx,css,json}\"",
     "format-check": "prettier --list-different \"src/**/*.{js,jsx,css,json}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
-    "dev": "parcel src/index.html"
+    "dev": "parcel src/index.html",
+    "build": "parcel build --public-url ./dist/ src/index.html",
+    "start": "npm run build && babel-node server.js"
   },
   "repository": {
     "type": "git",
@@ -42,7 +44,9 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "babel-cli": "^6.26.0",
     "emotion": "^9.2.12",
+    "express": "^4.16.4",
     "petfinder-client": "0.0.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",

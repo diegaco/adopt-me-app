@@ -1,24 +1,22 @@
 import React, { Component } from "react";
 import { createPortal } from "react-dom";
 
-const modalRoot = document.getElementById("modal");
-
 class Modal extends Component {
   constructor(props) {
     super(props);
-
     this.el = document.createElement("div");
+    this.modalRoot = document.getElementById("modal");
   }
 
   componentDidMount() {
-    modalRoot.appendChild(this.el);
+    this.modalRoot.appendChild(this.el);
   }
 
   componentWillUnmount() {
     // This method is almost always for clearing memory
     // removing event listeners, removing extraneous document stuff,
     // anything that's gonna leak memory
-    modalRoot.removeChild(this.el);
+    this.modalRoot.removeChild(this.el);
   }
 
   render() {
