@@ -4,14 +4,19 @@
     "plugin:import/errors",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
+    // prettier should come last
     "prettier",
     "prettier/react"
   ],
   "rules": {
+    // 0 -> turns rules off
+    // 1 -> warning
+    // 2 -> error
     "react/prop-types": 0,
     "jsx-a11y/label-has-for": 0,
     "no-console": 1
   },
+  // enables eslint to have more capabilities
   "plugins": ["react", "import", "jsx-a11y"],
   "parser": "babel-eslint",
   "parserOptions": {
