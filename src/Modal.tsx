@@ -4,24 +4,24 @@ import { createPortal } from "react-dom";
 const modalRoot = document.getElementById("modal");
 
 class Modal extends Component {
-  constructor(props) {
-    super(props);
+  private el = document.createElement("div");
 
-    this.el = document.createElement("div");
+  public componentDidMount() {
+    if (modalRoot) {
+      modalRoot.appendChild(this.el);
+    }
   }
 
-  componentDidMount() {
-    modalRoot.appendChild(this.el);
-  }
-
-  componentWillUnmount() {
+  public omponentWillUnmount() {
     // This method is almost always for clearing memory
     // removing event listeners, removing extraneous document stuff,
     // anything that's gonna leak memory
-    modalRoot.removeChild(this.el);
+    if (modalRoot) {
+      modalRoot.removeChild(this.el);
+    }
   }
 
-  render() {
+  public render() {
     return createPortal(this.props.children, this.el);
   }
 }

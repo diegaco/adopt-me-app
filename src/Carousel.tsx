@@ -1,8 +1,18 @@
 import React, { Component } from "react";
+import { PetMedia, PetPhoto } from "petfinder-client";
 
-class Carousel extends Component {
-  state = {
-    photos: [],
+interface Props {
+  media: PetMedia;
+}
+
+interface State {
+  active: number;
+  photos: PetPhoto[];
+}
+
+class Carousel extends Component<Props, State> {
+  public state = {
+    photos: [] as PetPhoto[],
     active: 0
   };
 
@@ -12,8 +22,8 @@ class Carousel extends Component {
   // This not change very frequently
   // This(filter) could be done in the render method
   // but it ends up being more complicated over time
-  static getDerivedStateFromProps({ media }) {
-    let photos = [];
+  public static getDerivedStateFromProps({ media }: Props) {
+    let photos: PetPhoto[] = [];
     if (media && media.photos && media.photos.photo) {
       photos = media.photos.photo.filter(photo => photo["@size"] === "pn");
     }
@@ -21,19 +31,25 @@ class Carousel extends Component {
     return { photos };
   }
 
-  handleIndexClick = ev => {
-    this.setState({
-      active: Number(ev.target.dataset.index)
-    });
+  public handleIndexClick = (ev: React.MouseEvent<HTMLElement>) => {
+    if (!(ev.target instanceof HTMLElement)) {
+      return;
+    }
+    if (ev.target.dataset.index) {
+      this.setState({
+        active: Number(ev.target.dataset.index)
+      });
+    }
   };
 
-  render() {
+  public render() {
     const { photos, active } = this.state;
+
     return (
       <div className="carousel">
         <img src={photos[active].value} alt="primary animal" />
         <div className="carousel-smaller">
-          {photos.map((photo, index) => (
+          {photos.map((photo: PetPhoto, index) => (
             /*eslint-disable-next-line*/
             <img
               key={photo.value}

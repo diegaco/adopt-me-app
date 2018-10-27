@@ -1,43 +1,53 @@
 import React, { Component } from "react";
-import pf from "petfinder-client";
+import pf, { Pet as PetType } from "petfinder-client";
+import { RouteComponentProps } from "@reach/router";
 import Pet from "./Pet";
 import SearchBox from "./SearchBox";
-import { connect } from "react-redux";
+import { Consumer } from "./SearchContext";
+
+if (!process.env.API_KEY || !process.env.API_SECRET) {
+  throw new Error("no API Keys");
+}
 
 const petfinder = pf({
   key: process.env.API_KEY,
   secret: process.env.API_SECRET
 });
 
-class Results extends Component {
-  constructor(props) {
+interface Props {
+  searchParams: {
+    location: string;
+    animal: string;
+    breed: string;
+  };
+}
+
+interface State {
+  pets: PetType[];
+}
+
+class Results extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       pets: []
     };
   }
 
-  _isMounted = false;
-
-  componentDidMount() {
-    this._isMounted = true;
+  public componentDidMount() {
     this.search();
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  search = () => {
+  public search = () => {
     petfinder.pet
       .find({
         output: "full",
-        location: this.props.location,
-        animal: this.props.animal,
-        breed: this.props.breed
+        location: this.props.searchParams.location,
+        animal: this.props.searchParams.animal,
+        breed: this.props.searchParams.breed
       })
       .then(data => {
-        let pets;
+        let pets: PetType[];
         if (data.petfinder.pets && data.petfinder.pets.pet) {
           if (Array.isArray(data.petfinder.pets.pet)) {
             pets = data.petfinder.pets.pet;
@@ -48,15 +58,13 @@ class Results extends Component {
           pets = [];
         }
 
-        if (this._isMounted) {
-          this.setState({
-            pets: pets
-          });
-        }
+        this.setState({
+          pets
+        });
       });
   };
 
-  render() {
+  public render() {
     return (
       <div className="search">
         <SearchBox search={this.search} />
@@ -84,12 +92,10 @@ class Results extends Component {
   }
 }
 
-// this is comming from Redux store
-const mapStateToProps = ({ location, breed, animal }) => ({
-  location,
-  breed,
-  animal
-});
-
-// here we passes redux store to Results as props
-export default connect(mapStateToProps)(Results);
+export default function ResultsWithContext(props: RouteComponentProps) {
+  return (
+    <Consumer>
+      {context => <Results {...props} searchParams={context} />}
+    </Consumer>
+  );
+}
