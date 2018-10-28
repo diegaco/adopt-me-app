@@ -39,7 +39,7 @@ class App extends Component<{}, State> {
   };
 
   public handleAnimalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.target instanceof HTMLInputElement) {
+    if (event.target instanceof HTMLSelectElement) {
       this.setState(
         {
           animal: event.target.value

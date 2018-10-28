@@ -58,7 +58,9 @@ class SearchBox extends Component<Props> {
                 ))}
               </select>
             </label>
-            <button type="submit">Send</button>
+            <button type="submit" onClick={this.props.search}>
+              Send
+            </button>
           </div>
         )}
       </Consumer>

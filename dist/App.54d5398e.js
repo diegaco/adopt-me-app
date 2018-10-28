@@ -23876,12 +23876,13 @@ var SearchBox = /** @class */function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     SearchBox.prototype.render = function () {
+        var _this = this;
         return react_1.default.createElement(SearchContext_1.Consumer, null, function (context) {
             return react_1.default.createElement("div", { className: "search-params" }, react_1.default.createElement("label", { htmlFor: "location" }, "Location", react_1.default.createElement("input", { id: "location", value: context.location, placeholder: "Location", type: "text", onChange: context.handleLocationChange })), react_1.default.createElement("label", { htmlFor: "animal" }, "Animal", react_1.default.createElement("select", { id: "animal", value: context.animal, onChange: context.handleAnimalChange, onBlur: context.handleAnimalChange, name: "" }, react_1.default.createElement("option", { value: "All" }, "- All -"), petfinder_client_1.ANIMALS.map(function (animal) {
                 return react_1.default.createElement("option", { key: animal, value: animal }, animal);
             }))), react_1.default.createElement("label", { htmlFor: "breed" }, "Breed", react_1.default.createElement("select", { id: "breed", value: context.breed, onChange: context.handleBreedChange, onBlur: context.handleBreedChange, name: "", disabled: !context.breeds.length }, react_1.default.createElement("option", { value: "All" }, "- All -"), context.breeds.map(function (breed) {
                 return react_1.default.createElement("option", { key: breed, value: breed }, breed);
-            }))), react_1.default.createElement("button", { type: "submit" }, "Send"));
+            }))), react_1.default.createElement("button", { type: "submit", onClick: _this.props.search }, "Send"));
         });
     };
     return SearchBox;
@@ -24362,7 +24363,7 @@ var App = /** @class */function (_super) {
             }
         };
         _this.handleAnimalChange = function (event) {
-            if (event.target instanceof HTMLInputElement) {
+            if (event.target instanceof HTMLSelectElement) {
                 _this.setState({
                     animal: event.target.value
                 }, _this.getBreeds);
