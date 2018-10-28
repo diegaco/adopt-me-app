@@ -12,7 +12,7 @@ class Modal extends Component {
     }
   }
 
-  public omponentWillUnmount() {
+  public componentWillUnmount() {
     // This method is almost always for clearing memory
     // removing event listeners, removing extraneous document stuff,
     // anything that's gonna leak memory

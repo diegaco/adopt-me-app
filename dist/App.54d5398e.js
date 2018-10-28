@@ -24120,7 +24120,7 @@ var Modal = /** @class */function (_super) {
             modalRoot.appendChild(this.el);
         }
     };
-    Modal.prototype.omponentWillUnmount = function () {
+    Modal.prototype.componentWillUnmount = function () {
         // This method is almost always for clearing memory
         // removing event listeners, removing extraneous document stuff,
         // anything that's gonna leak memory
